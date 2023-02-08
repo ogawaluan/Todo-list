@@ -46,6 +46,10 @@ Install dependencies
 
     yarn
 
+Sync Prisma schema with the database
+
+    npx prisma db push
+
 Run project
 
     yarn dev
