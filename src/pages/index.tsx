@@ -57,7 +57,9 @@ const Home: NextPage = () => {
           </Typography>
           <AddTodoInput />
           <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-            <Button onClick={() => setIsOpen(true)}>Clear All To-do</Button>
+            <Button onClick={() => setIsOpen(true)}>
+              Clear All completed To-do
+            </Button>
           </Box>
           <Box
             sx={{

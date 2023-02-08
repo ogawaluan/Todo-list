@@ -50,6 +50,7 @@ const AddTodoInput = () => {
         id="outlined-basic"
         variant="standard"
         color="primary"
+        placeholder="To submit, press enter"
         fullWidth
         InputProps={{
           disableUnderline: true,
