@@ -15,6 +15,7 @@ test("Creating a todo", async () => {
   const todo = await caller.todo.createTodo(input);
 
   expect(todo).toMatchObject({ title: "test" });
+  await caller.todo.deleteTodo({ id: todo.id });
 });
 
 test("Should not allow creating a todo", async () => {
@@ -51,6 +52,7 @@ test("Updating a todo", async () => {
   const updatedTodo = await caller.todo.updateTodo(updatedInput);
 
   expect(updatedTodo).toMatchObject({ title: "test", completed: true });
+  await caller.todo.deleteTodo({ id: todo.id });
 });
 
 test("Should not update a nonexistent todo", async () => {
@@ -80,11 +82,12 @@ test("Should be able to list todos", async () => {
     title: "test",
   };
 
-  await caller.todo.createTodo(input);
+  const todo = await caller.todo.createTodo(input);
 
   const todos = await caller.todo.getAllTodos();
 
   expect(todos.length).greaterThan(0);
+  await caller.todo.deleteTodo({ id: todo.id });
 });
 
 test("Should be able to delete a todo", async () => {

@@ -73,7 +73,7 @@ const Home: NextPage = () => {
                   justifyContent: "center",
                 }}
               >
-                <CircularProgress />
+                <CircularProgress size={30} />
               </Box>
             ) : data?.length === 0 ? (
               <Typography textAlign={"center"}>Empty todo</Typography>
