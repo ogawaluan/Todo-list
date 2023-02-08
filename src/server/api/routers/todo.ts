@@ -47,4 +47,18 @@ export const todoRouter = createTRPCRouter({
 
       return todo;
     }),
+  deleteTodo: publicProcedure
+    .input(
+      z.object({
+        id: z.string().cuid(),
+      })
+    )
+    .mutation(({ ctx, input }) => {
+      const { id } = input;
+
+      return ctx.prisma.todo.delete({ where: { id } });
+    }),
+  clearCompletedTodos: publicProcedure.mutation(({ ctx }) => {
+    return ctx.prisma.todo.deleteMany({ where: { completed: true } });
+  }),
 });

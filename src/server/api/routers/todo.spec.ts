@@ -86,3 +86,38 @@ test("Should be able to list todos", async () => {
 
   expect(todos.length).greaterThan(0);
 });
+
+test("Should be able to delete a todo", async () => {
+  const ctx = createInnerTRPCContext({});
+  const caller = appRouter.createCaller(ctx);
+
+  type Input = inferProcedureInput<AppRouter["todo"]["createTodo"]>;
+  const input: Input = {
+    title: "test",
+  };
+
+  const todoCreated = await caller.todo.createTodo(input);
+
+  const todos = await caller.todo.getAllTodos();
+
+  const deletedTodo = await caller.todo.deleteTodo({ id: todoCreated.id });
+
+  const findDeleteTodo = todos.find((todo) => todo === deletedTodo);
+
+  expect(findDeleteTodo).toBeUndefined();
+});
+
+test("Should not delete a nonexistent todo", async () => {
+  const ctx = createInnerTRPCContext({});
+  const caller = appRouter.createCaller(ctx);
+
+  type DeleteTodo = inferProcedureInput<AppRouter["todo"]["deleteTodo"]>;
+
+  const deletedTodo: DeleteTodo = {
+    id: "1231231",
+  };
+
+  await expect(caller.todo.deleteTodo(deletedTodo)).rejects.toBeInstanceOf(
+    TRPCError
+  );
+});

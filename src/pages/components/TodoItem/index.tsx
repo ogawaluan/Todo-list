@@ -1,6 +1,8 @@
+import { DeleteForever } from "@mui/icons-material";
+import { Button as ButtonJoy } from "@mui/joy";
 import {
   Box,
-  Button,
+  Button as ButtonMaterial,
   Checkbox,
   CircularProgress,
   FormControlLabel,
@@ -8,6 +10,7 @@ import {
 import type { Todo } from "@prisma/client";
 import { useState } from "react";
 import { api } from "../../../utils/api";
+import DeleteModal from "../DeleteModal";
 import UpdateTodoModal from "../UpdateTodoModal";
 
 interface ITodoItemProps {
@@ -23,7 +26,8 @@ const TodoItem = ({ todo }: ITodoItemProps) => {
     },
   });
 
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isOpenUpdate, setIsOpenUpdate] = useState<boolean>(false);
+  const [isOpenDelete, setIsOpenDelete] = useState<boolean>(false);
 
   const handleCheckTodo = (check: boolean) => {
     mutate({ id: todo.id, data: { completed: check } });
@@ -57,7 +61,7 @@ const TodoItem = ({ todo }: ITodoItemProps) => {
           sx={{ marginRight: 1 }}
         />
       )}
-      <Button
+      <ButtonMaterial
         color="inherit"
         fullWidth
         sx={{
@@ -65,14 +69,26 @@ const TodoItem = ({ todo }: ITodoItemProps) => {
           textTransform: "initial",
           textDecorationLine: todo.completed ? "line-through" : "initial",
         }}
-        onClick={() => setIsOpen(true)}
+        onClick={() => setIsOpenUpdate(true)}
       >
         {todo.title}
-      </Button>
+      </ButtonMaterial>
+      <ButtonJoy
+        variant="plain"
+        color="danger"
+        onClick={() => setIsOpenDelete(true)}
+      >
+        <DeleteForever />
+      </ButtonJoy>
       <UpdateTodoModal
         todo={todo}
-        isOpen={isOpen}
-        onChangeIsOpen={(isOpen) => setIsOpen(isOpen)}
+        isOpen={isOpenUpdate}
+        onChangeIsOpen={(isOpen) => setIsOpenUpdate(isOpen)}
+      />
+      <DeleteModal
+        isOpen={isOpenDelete}
+        onChangeIsOpen={(isOpen) => setIsOpenDelete(isOpen)}
+        todoId={todo.id}
       />
     </Box>
   );

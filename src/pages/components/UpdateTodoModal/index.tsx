@@ -1,4 +1,4 @@
-import { type ChangeEvent, useState, FormEvent } from "react";
+import { type ChangeEvent, useState, type FormEvent } from "react";
 import type { Todo } from "@prisma/client";
 import {
   Button,
@@ -99,9 +99,9 @@ const UpdateTodoModal = ({
               <FormControlLabel
                 control={
                   <Checkbox
-                    checked={todo.completed}
                     onChange={handleChangeCheck}
                     inputProps={{ "aria-label": "primary checkbox" }}
+                    defaultChecked={todo.completed}
                   />
                 }
                 label="Completed"

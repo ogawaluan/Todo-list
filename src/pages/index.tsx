@@ -2,9 +2,17 @@ import { type NextPage } from "next";
 import Head from "next/head";
 
 import { api } from "../utils/api";
-import { Box, CircularProgress, Container, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Container,
+  Typography,
+} from "@mui/material";
 import AddTodoInput from "./components/AddTodoInput";
 import TodoItem from "./components/TodoItem";
+import { useState } from "react";
+import DeleteModal from "./components/DeleteModal";
 
 const Home: NextPage = () => {
   const { isLoading, isSuccess, data } = api.todo.getAllTodos.useQuery(
@@ -13,6 +21,8 @@ const Home: NextPage = () => {
       staleTime: 30000,
     }
   );
+
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <>
@@ -25,13 +35,12 @@ const Home: NextPage = () => {
         sx={{
           display: "flex",
           flexDirection: "column",
-          backgroundColor: "#f9f9f9",
         }}
       >
         <Box
           sx={{
             height: "300px",
-            backgroundColor: "red",
+            background: "linear-gradient(to right bottom, #1D3FB8, #0079B8)",
           }}
         ></Box>
         <Container maxWidth="sm" sx={{ alignSelf: "center", marginBottom: 10 }}>
@@ -47,9 +56,11 @@ const Home: NextPage = () => {
             TODO
           </Typography>
           <AddTodoInput />
+          <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+            <Button onClick={() => setIsOpen(true)}>Clear All To-do</Button>
+          </Box>
           <Box
             sx={{
-              marginTop: 4,
               boxShadow: 3,
               borderRadius: 4,
             }}
@@ -72,6 +83,10 @@ const Home: NextPage = () => {
             )}
           </Box>
         </Container>
+        <DeleteModal
+          isOpen={isOpen}
+          onChangeIsOpen={(isOpen) => setIsOpen(isOpen)}
+        />
       </Box>
     </>
   );
