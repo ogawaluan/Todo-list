@@ -14,7 +14,7 @@ Project about a To-do list, being able to see the list of to-do's and being able
 ## Getting Started
 
 These instructions will give you a copy of the project up and running on
-your local machine for development and testing purposes. There is an apk file available for download if you want to test outside the development environment in the last section of the read me.
+your local machine for development and testing purposes.
 
 ### Prerequisites
 
@@ -49,3 +49,7 @@ Install dependencies
 Run project
 
     yarn dev
+
+To run tests
+
+    yarn test
